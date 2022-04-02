@@ -1,3 +1,8 @@
+# Prepare Your Workflow for Authentication to various systems needed for the execution
+# Setup GITHUB SECRETS, GITHUB_TOKEN If necessary
+# Setup DOCKER CREDENTIALS
+# Setup GOOGLE CREDENTIALS
+
 name: CI
 
 on:
@@ -61,7 +66,7 @@ jobs:
 
       - name: Check some Info
         run: |
-          echo "Working directory is: ${{ env.GITHUB_WORKSPACE }}"
+          echo "Working directory is:"" ${{ GITHUB_WORKSPACE }}
           echo "Listing Contents"
           ls -al
 
@@ -70,7 +75,7 @@ jobs:
         run: |
           echo "-----Building Shipping Docker Images-----"
           #docker-compose -f docker-compose.yaml build
-          #docker build 
+          docker build -f shipping/Dockerfile
       
       - name: List Docker Images
         run: | 
