@@ -79,5 +79,10 @@ jobs:
 
 # Configuring a new Job for tagging and pushing images to Google Artifact Registry
 
-push_roboshop_images:
-  name: Push Robot Shop Images to GCR
+  push_roboshop_images:
+    name: Push Robot Shop Images to GCR
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Placeholder
+        run: echo "Hello you are seeing Job2"
