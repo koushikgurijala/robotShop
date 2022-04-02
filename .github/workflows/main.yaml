@@ -58,6 +58,8 @@ jobs:
       
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v1
+
+      - name: Check some Info
         run: |
           echo "Working directory is: ${{ env.GITHUB_WORKSPACE }}"
           echo "Listing Contents"
