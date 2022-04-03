@@ -44,4 +44,4 @@ jobs:
         run: |
           export TAG=`echo $GITHUB_REF | awk -F/ '{print $NF}'`
           echo $TAG
-          docker build -t us-central1-docker.pkg.dev/triangulum-ctv/stans-robot-shop/rs-shipping:"$TAG" shipping/ .
+          docker build -t us-central1-docker.pkg.dev/triangulum-ctv/stans-robot-shop/rs-shipping:"$TAG" shipping/
