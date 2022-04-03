@@ -75,7 +75,7 @@ jobs:
         run: |
           echo "-----Building Shipping Docker Images-----"
           #docker-compose -f docker-compose.yaml build
-          docker build -f shipping/Dockerfile
+          docker build -f shipping/Dockerfile -t rs-shipping:$TAG .
       
       - name: List Docker Images
         run: | 
