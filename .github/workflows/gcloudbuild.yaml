@@ -72,7 +72,7 @@ jobs:
   
     steps:
       - name: Checkout
-      - uses: actions/checkout@v3
+        uses: actions/checkout@v3
                 
       - name: Setup GCP Service Account
         uses: "google-github-actions/auth@v0"
@@ -106,7 +106,7 @@ jobs:
 
     steps:
       - name: Checkout
-      - uses: actions/checkout@v3
+        uses: actions/checkout@v3
                 
       - name: Setup GCP Service Account
         uses: "google-github-actions/auth@v0"
@@ -140,7 +140,7 @@ jobs:
 
     steps:
       - name: Checkout
-      - uses: actions/checkout@v3
+        uses: actions/checkout@v3
                 
       - name: Setup GCP Service Account
         uses: "google-github-actions/auth@v0"
@@ -174,7 +174,7 @@ jobs:
 
     steps:
       - name: Checkout
-      - uses: actions/checkout@v3
+        uses: actions/checkout@v3
                 
       - name: Setup GCP Service Account
         uses: "google-github-actions/auth@v0"
@@ -208,7 +208,7 @@ jobs:
 
     steps:
       - name: Checkout
-      - uses: actions/checkout@v3
+        uses: actions/checkout@v3
                 
       - name: Setup GCP Service Account
         uses: "google-github-actions/auth@v0"
@@ -242,7 +242,7 @@ jobs:
 
     steps:
       - name: Checkout
-      - uses: actions/checkout@v3
+        uses: actions/checkout@v3
                 
       - name: Setup GCP Service Account
         uses: "google-github-actions/auth@v0"
@@ -276,7 +276,7 @@ jobs:
 
     steps:
       - name: Checkout
-      - uses: actions/checkout@v3
+        uses: actions/checkout@v3
                 
       - name: Setup GCP Service Account
         uses: "google-github-actions/auth@v0"
@@ -310,7 +310,7 @@ jobs:
 
     steps:
       - name: Checkout
-      - uses: actions/checkout@v3
+        uses: actions/checkout@v3
         with:
           path: shipping
                 
@@ -346,7 +346,7 @@ jobs:
 
     steps:
       - name: Checkout
-      - uses: actions/checkout@v3
+        uses: actions/checkout@v3
                 
       - name: Setup GCP Service Account
         uses: "google-github-actions/auth@v0"
@@ -380,7 +380,7 @@ jobs:
 
     steps:
       - name: Checkout
-      - uses: actions/checkout@v3
+        uses: actions/checkout@v3
                         
       - name: Setup GCP Service Account
         uses: "google-github-actions/auth@v0"
