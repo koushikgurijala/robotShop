@@ -68,14 +68,16 @@ jobs:
           echo $TAG
           echo "$GAR_INFO"/"$SHIPPING_APP_NAME":"$TAG"
           docker build -t "$GAR_INFO"/"$SHIPPING_APP_NAME":"$TAG" shipping/
-      # docker build -t us-central1-docker.pkg.dev/triangulum-ctv/stans-robot-shop/rs-shipping:"$TAG" shipping/
+          docker push "$GAR_INFO"/"$SHIPPING_APP_NAME":"$TAG"
+        with:
+          credentials_json: "${{ secrets.GOOGLE_CREDENTIALS }}"
 
+      # docker build -t us-central1-docker.pkg.dev/triangulum-ctv/stans-robot-shop/rs-shipping:"$TAG" shipping/
       # Push the Docker image to Google Container Registry
           
       - name: Publish
         run: |
           echo $TAG
-          docker push "$GAR_INFO"/"$SHIPPING_APP_NAME":"$TAG"
           docker tag "$GAR_INFO"/"$SHIPPING_APP_NAME":"$TAG" "$GAR_INFO"/"$SHIPPING_APP_NAME":"$TAG"
           docker push "$GAR_INFO"/"$SHIPPING_APP_NAME":"$TAG"
         with:
