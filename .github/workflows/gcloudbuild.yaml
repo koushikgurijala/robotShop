@@ -29,11 +29,19 @@ env:
 
 jobs:
   changes:
-    name: Build and Publish
+    name: Track Changes in Services
     runs-on: ubuntu-latest
     outputs:
-      backend: ${{ steps.filter.outputs.backend }}
-      frontend: ${{ steps.filter.outputs.frontend }}
+      cart: ${{ steps.filter.outputs.backend }}
+      catalogue: ${{ steps.filter.outputs.catalogue }}
+      dispatch: ${{ steps.filter.outputs.dispatch }}
+      mongo: ${{ steps.filter.outputs.mongo }}
+      mysql: ${{ steps.filter.outputs.mysql }}
+      payment: ${{ steps.filter.outputs.payment }}
+      ratings: ${{ steps.filter.outputs.ratings }}
+      shipping: ${{ steps.filter.outputs.shipping }}
+      user: ${{ steps.filter.outputs.user }}
+      web: ${{ steps.filter.outputs.web }}
         
     steps:
     - uses: dorny/paths-filter@v2
