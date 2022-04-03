@@ -21,28 +21,13 @@ jobs:
     env:
       GAR_INFO: us-central1-docker.pkg.dev/triangulum-ctv/stans-robot-shop
       SHIPPING_APP_NAME: rs-shipping
-      # TAG: 1.0.0
+      TAG: "echo shipping/VERSION.txt"
 
     steps:
       -
         name: Checkout
         uses: actions/checkout@v3
-      -
-        name: Docker meta
-        id: docker_meta
-        uses: docker/metadata-action@v3
-        with:
-          images: |
-            $GAR_INFO"/"$SHIPPING_APP_NAME"
-          tags: |
-            type=ref,event=branch
-            type=ref,event=tag
-            type=ref,event=pr
-            type=semver,pattern=v{{version}}
-            type=semver,pattern=v{{major}}.{{minor}}
-            type=semver,pattern=v{{major}}
-            type=sha
-
+      
       - name: Setup GCP Service Account
         uses: "google-github-actions/auth@v0"
         with:
@@ -65,7 +50,6 @@ jobs:
       
       - name: Build
         run: |
-          export TAG=${{ steps.docker_meta.outputs.tags }}
           echo $TAG
           echo "$GAR_INFO"/"$SHIPPING_APP_NAME":"$TAG"
           docker build -t "$GAR_INFO"/"$SHIPPING_APP_NAME":"$TAG" shipping/
