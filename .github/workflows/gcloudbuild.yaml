@@ -1,3 +1,4 @@
+name: GCloud Build
 on:
   push:
     branches: [ master ]
@@ -27,11 +28,20 @@ jobs:
         with:
           credentials_json: "${{ secrets.GOOGLE_CREDENTIALS }}"
       
-      - name: 'Set up Cloud SDK'
+      - name: Set up Cloud SDK
         uses: 'google-github-actions/setup-gcloud@v0'
       
-      - name: "Use gcloud CLI"
+      - name: Use gcloud CLI
         run: "gcloud info"
 
-      - name: 'gcr.io/cloud-builders/docker'
-        args: [ 'build', '-t', 'us-central1-docker.pkg.dev/triangulum-ctv/stans-robot-shop/rs-shipping:latest', '-f', 'shipping', '.' ]
+      # Configure docker to use the gcloud command-line tool as a credential helper
+      - name: Setup Docker
+        run: |
+          gcloud auth configure-docker
+
+      # Build the Docker image
+      - name: Build
+        run: |
+          export TAG=`echo $GITHUB_REF | awk -F/ '{print $NF}'`
+          echo $TAG
+          docker build -t us-central1-docker.pkg.dev/triangulum-ctv/stans-robot-shop/rs-shipping:"$TAG" -f shipping/Dockerfile .
