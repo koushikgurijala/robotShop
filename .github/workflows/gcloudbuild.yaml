@@ -31,6 +31,8 @@ jobs:
         id: docker_meta
         uses: docker/metadata-action@v3
         with:
+          images: |
+            shipping/rs-shipping
           tags: |
             type=ref,event=branch
             type=ref,event=tag
