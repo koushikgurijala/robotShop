@@ -21,8 +21,7 @@ jobs:
     env:
       GAR_INFO: us-central1-docker.pkg.dev/triangulum-ctv/stans-robot-shop
       SHIPPING_APP_NAME: rs-shipping
-      TAG: "echo shipping/VERSION.txt"
-
+      
     steps:
       -
         name: Checkout
@@ -50,6 +49,7 @@ jobs:
       
       - name: Build
         run: |
+          export TAG=`echo shipping/VERSION.txt`
           echo $TAG
           echo "$GAR_INFO"/"$SHIPPING_APP_NAME":"$TAG"
           docker build -t "$GAR_INFO"/"$SHIPPING_APP_NAME":"$TAG" shipping/
