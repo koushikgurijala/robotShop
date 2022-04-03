@@ -77,7 +77,7 @@ jobs:
       - name: Publish
         run: |
           gcloud info
-          $TAG="$TAG.1"
+          NEW_TAG="$TAG.1"
           echo $TAG
-          docker tag "$GAR_INFO"/"$SHIPPING_APP_NAME":"$TAG" "$GAR_INFO"/"$SHIPPING_APP_NAME":"$TAG"
-          docker push "$GAR_INFO"/"$SHIPPING_APP_NAME":"$TAG"."1"
+          docker tag "$GAR_INFO"/"$SHIPPING_APP_NAME":"$TAG" "$GAR_INFO"/"$SHIPPING_APP_NAME":"$NEW_TAG"
+          docker push "$GAR_INFO"/"$SHIPPING_APP_NAME":"$NEW_TAG"
