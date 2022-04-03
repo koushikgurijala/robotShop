@@ -42,7 +42,7 @@ jobs:
         filters: |
           cart:
             - 'cart/**'
-          catalogue
+          catalogue:
             - 'catalogue/**'
           dispatch: 
             - 'dispatch/**'
