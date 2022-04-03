@@ -57,7 +57,7 @@ jobs:
       # Configure docker to use the gcloud command-line tool as a credential helper
       - name: Setup Docker
         run: |
-          gcloud auth configure-docker
+          gcloud auth configure-docker us-central1-docker.pkg.dev
 
       # Build the Docker image
       # export TAG=`echo $GITHUB_REF | awk -F/ '{print $NF}'`
