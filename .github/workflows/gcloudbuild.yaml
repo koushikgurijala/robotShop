@@ -78,3 +78,5 @@ jobs:
           docker push "$GAR_INFO"/"$SHIPPING_APP_NAME":"$TAG"
           docker tag "$GAR_INFO"/"$SHIPPING_APP_NAME":"$TAG" "$GAR_INFO"/"$SHIPPING_APP_NAME":"$TAG"
           docker push "$GAR_INFO"/"$SHIPPING_APP_NAME":"$TAG"
+        with:
+          credentials_json: "${{ secrets.GOOGLE_CREDENTIALS }}"
