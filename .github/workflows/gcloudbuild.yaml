@@ -14,19 +14,18 @@ on:
       
   workflow_dispatch:
 
-  env:
-    GAR_INFO: us-central1-docker.pkg.dev/triangulum-ctv/stans-robot-shop
-    CART_APP_NAME: rs-cart
-    SHIPPING_APP_NAME: rs-shipping
-    CATALOGUE_APP_NAME: rs-catalogue
-    DISPATCH_APP_NAME: rs-dispatch
-    MONGO_APP_NAME: rs-mongodb
-    MYSQL_APP_NAME: rs-mysql-db
-    PAYMENT_APP_NAME: rs-payment
-    RATINGS_APP_NAME: rs-ratings
-    USER_APP_NAME: rs-user
-    WEB_APP_NAME: rs-web
-
+env:
+  GAR_INFO: us-central1-docker.pkg.dev/triangulum-ctv/stans-robot-shop
+  CART_APP_NAME: rs-cart
+  SHIPPING_APP_NAME: rs-shipping
+  CATALOGUE_APP_NAME: rs-catalogue
+  DISPATCH_APP_NAME: rs-dispatch
+  MONGO_APP_NAME: rs-mongodb
+  MYSQL_APP_NAME: rs-mysql-db
+  PAYMENT_APP_NAME: rs-payment
+  RATINGS_APP_NAME: rs-ratings
+  USER_APP_NAME: rs-user
+  WEB_APP_NAME: rs-web
 
 jobs:
   changes:
@@ -35,6 +34,7 @@ jobs:
     outputs:
       backend: ${{ steps.filter.outputs.backend }}
       frontend: ${{ steps.filter.outputs.frontend }}
+        
     steps:
     - uses: dorny/paths-filter@v2
       id: filter
@@ -69,7 +69,7 @@ jobs:
     needs: changes
     if: ${{ needs.changes.outputs.cart == 'true'}}
     runs-on: ubuntu-latest
-
+  
     steps:
       - name: Checkout
       - uses: actions/checkout@v3
