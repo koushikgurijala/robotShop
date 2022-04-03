@@ -1,0 +1,37 @@
+on:
+  push:
+    branches: [ master ]
+    paths-ignore:
+      - '**.md'
+      - '.github/workflows/*yaml'
+      - 'readme/**'
+  pull_request:
+    paths-ignore:
+      - '**.md'
+      - '.github/workflows/*yaml'
+      - 'readme/**'
+      
+  workflow_dispatch:
+
+jobs:
+  build-publish:
+    name: Build and Publish
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+
+      - name: Setup GCP Service Account
+        uses: "google-github-actions/auth@v0"
+        with:
+          credentials_json: "${{ secrets.GOOGLE_CREDENTIALS }}"
+      
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v0'
+      
+      - name: "Use gcloud CLI"
+        run: "gcloud info"
+
+      - name: 'gcr.io/cloud-builders/docker'
+        args: [ 'build', '-t', 'us-central1-docker.pkg.dev/triangulum-ctv/stans-robot-shop/rs-shipping:latest', '-f', 'shipping', '.' ]
