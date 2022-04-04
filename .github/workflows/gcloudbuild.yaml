@@ -44,7 +44,7 @@ jobs:
       web: ${{ steps.filter.outputs.web }}
         
     steps:
-    - uses: dorny/paths-filter@v2
+    - uses: dorny/paths-filter@v2.10.2
       id: filter
       with:
         filters: |
