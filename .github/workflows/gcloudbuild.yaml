@@ -340,10 +340,11 @@ jobs:
        
       - name: Build-and-push-to-GAR
         run: |
-          export TAG=`cat shipping/VERSION.txt`
+          echo `pwd`
+          export TAG=`cat VERSION.txt`
           echo $TAG
           echo "$GAR_INFO"/"$SHIPPING_APP_NAME":"$TAG"
-          docker build -t "$GAR_INFO"/"$SHIPPING_APP_NAME":"$TAG" shipping/
+          docker build -t "$GAR_INFO"/"$SHIPPING_APP_NAME":"$TAG" .
           gcloud info
           docker push "$GAR_INFO"/"$SHIPPING_APP_NAME":"$TAG"
 
