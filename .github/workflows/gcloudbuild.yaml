@@ -32,7 +32,7 @@ jobs:
     name: Track Changes in Services
     runs-on: ubuntu-latest
     outputs:
-      cart: ${{ steps.filter.outputs.backend }}
+      cart: ${{ steps.filter.outputs.cart }}
       catalogue: ${{ steps.filter.outputs.catalogue }}
       dispatch: ${{ steps.filter.outputs.dispatch }}
       mongo: ${{ steps.filter.outputs.mongo }}
