@@ -2,9 +2,9 @@ name: GCloud Build
 on:
   push:
     branches: [ dev-branch-1 ]
+    # - '.github/workflows/*yaml'
     paths-ignore:
       - '**.md'
-      - '.github/workflows/*yaml'
       - 'readme/**'
   pull_request:
     paths-ignore:
@@ -26,6 +26,8 @@ env:
   RATINGS_APP_NAME: rs-ratings
   USER_APP_NAME: rs-user
   WEB_APP_NAME: rs-web
+  REDIS_APP_NAME: redis
+  RABBITMQ_APP_NAME: rabbitmq
 
 jobs:
   changes:
@@ -447,7 +449,7 @@ jobs:
           export TAG=`cat redis/VERSION.txt`
           echo $TAG
           echo "$GAR_INFO"/"$WEB_APP_NAME":"$TAG"
-          docker build -t "$GAR_INFO"/"$WEB_APP_NAME":"$TAG" redis/
+          docker build -t "$GAR_INFO"/"$REDIS_APP_NAME":"$TAG" redis/
           gcloud info
           docker push "$GAR_INFO"/"$WEB_APP_NAME":"$TAG"
 
@@ -481,6 +483,6 @@ jobs:
           export TAG=`cat rabbitmq/VERSION.txt`
           echo $TAG
           echo "$GAR_INFO"/"$WEB_APP_NAME":"$TAG"
-          docker build -t "$GAR_INFO"/"$WEB_APP_NAME":"$TAG" rabbitmq/
+          docker build -t "$GAR_INFO"/"$RABBITMQ_APP_NAME":"$TAG" rabbitmq/
           gcloud info
           docker push "$GAR_INFO"/"$WEB_APP_NAME":"$TAG"
