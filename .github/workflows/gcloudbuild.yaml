@@ -52,6 +52,7 @@ jobs:
     - uses: dorny/paths-filter@v2.10.2
       id: filter
       with:
+        base: HEAD
         filters: |
           cart:
             - added|deleted|modified: 'cart/**'
@@ -448,10 +449,10 @@ jobs:
         run: |
           export TAG=`cat redis/VERSION.txt`
           echo $TAG
-          echo "$GAR_INFO"/"$WEB_APP_NAME":"$TAG"
+          echo "$GAR_INFO"/"$REDIS_APP_NAME":"$TAG"
           docker build -t "$GAR_INFO"/"$REDIS_APP_NAME":"$TAG" redis/
           gcloud info
-          docker push "$GAR_INFO"/"$WEB_APP_NAME":"$TAG"
+          docker push "$GAR_INFO"/"$REDIS_APP_NAME":"$TAG"
 
   build-rabbitmq:
     name: Building RabbitMQ IMAGE
@@ -482,7 +483,7 @@ jobs:
         run: |
           export TAG=`cat rabbitmq/VERSION.txt`
           echo $TAG
-          echo "$GAR_INFO"/"$WEB_APP_NAME":"$TAG"
+          echo "$GAR_INFO"/"$RABBITMQ_APP_NAME":"$TAG"
           docker build -t "$GAR_INFO"/"$RABBITMQ_APP_NAME":"$TAG" rabbitmq/
           gcloud info
-          docker push "$GAR_INFO"/"$WEB_APP_NAME":"$TAG"
+          docker push "$GAR_INFO"/"$RABBITMQ_APP_NAME":"$TAG"
