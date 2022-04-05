@@ -52,29 +52,29 @@ jobs:
       with:
         filters: |
           cart:
-            - 'cart/**'
+            - added|deleted|modified: 'cart/**'
           catalogue:
-            - 'catalogue/**'
+            - added|deleted|modified: 'catalogue/**'
           dispatch: 
-            - 'dispatch/**'
+            - added|deleted|modified: 'dispatch/**'
           mongo:
-            - 'mongo/**'
+            - added|deleted|modified: 'mongo/**'
           mysql:
-            - 'mysql/**'
+            - added|deleted|modified: 'mysql/**'
           payment:
-            - 'payment/**'
+            - added|deleted|modified: 'payment/**'
           ratings:
-            - 'ratings/**'
+            - added|deleted|modified: 'ratings/**'
           shipping:
-            - 'shipping/**'
+            - added|deleted|modified: 'shipping/**'
           user:
-            - 'user/**'
+            - added|deleted|modified: 'user/**'
           web:
-            - 'web/**'
+            - added|deleted|modified: 'web/**'
           redis:
-            - 'redis/**'
+            - added|deleted|modified: 'redis/**'
           rabbitmq:
-            - 'rabbitmq/**'    
+            - added|deleted|modified: 'rabbitmq/**'    
         
   build-cart:
     name: Building CART IMAGE
