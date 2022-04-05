@@ -43,7 +43,7 @@ jobs:
       user: ${{ steps.filter.outputs.user }}
       web: ${{ steps.filter.outputs.web }}
       redis: ${{ steps.filter.outputs.redis }}
-      rabitmq: ${{ steps.filter.outputs.rabitmq }}
+      rabbitmq: ${{ steps.filter.outputs.rabbitmq }}
         
     steps:
     - uses: actions/checkout@v3
@@ -79,7 +79,7 @@ jobs:
   build-cart:
     name: Building CART IMAGE
     needs: changes
-    if: ${{ needs.changes.outputs.cart == 'true'}}
+    if: ${{ needs.changes.outputs.cart == 'true' }}
     runs-on: ubuntu-latest
   
     steps:
@@ -113,7 +113,7 @@ jobs:
   build-catalogue:
     name: Building CATALOGUE IMAGE
     needs: changes
-    if: ${{ needs.changes.outputs.catalogue == 'true'}}
+    if: ${{ needs.changes.outputs.catalogue == 'true' }}
     runs-on: ubuntu-latest
 
     steps:
@@ -147,7 +147,7 @@ jobs:
   build-dispatch:
     name: Building DISPATCH IMAGE
     needs: changes
-    if: ${{ needs.changes.outputs.dispatch == 'true'}}
+    if: ${{ needs.changes.outputs.dispatch == 'true' }}
     runs-on: ubuntu-latest
 
     steps:
@@ -181,7 +181,7 @@ jobs:
   build-mongo:
     name: Building MONGODB IMAGE
     needs: changes
-    if: ${{ needs.changes.outputs.mongo == 'true'}}
+    if: ${{ needs.changes.outputs.mongo == 'true' }}
     runs-on: ubuntu-latest
 
     steps:
@@ -215,7 +215,7 @@ jobs:
   build-mysql:
     name: Building MYSQL-DB IMAGE
     needs: changes
-    if: ${{ needs.changes.outputs.mysql == 'true'}}
+    if: ${{ needs.changes.outputs.mysql == 'true' }}
     runs-on: ubuntu-latest
 
     steps:
@@ -249,7 +249,7 @@ jobs:
   build-payment:
     name: Building PAYMENT IMAGE
     needs: changes
-    if: ${{ needs.changes.outputs.payment == 'true'}}
+    if: ${{ needs.changes.outputs.payment == 'true' }}
     runs-on: ubuntu-latest
 
     steps:
@@ -283,7 +283,7 @@ jobs:
   build-ratings:
     name: Building RATINGS IMAGE
     needs: changes
-    if: ${{ needs.changes.outputs.ratings == 'true'}}
+    if: ${{ needs.changes.outputs.ratings == 'true' }}
     runs-on: ubuntu-latest
 
     steps:
@@ -317,7 +317,7 @@ jobs:
   build-shipping:
     name: Building SHIPPING IMAGE
     needs: changes
-    if: ${{ needs.changes.outputs.shipping == 'true'}}
+    if: ${{ needs.changes.outputs.shipping == 'true' }}
     runs-on: ubuntu-latest
 
     steps:
@@ -352,7 +352,7 @@ jobs:
   build-user:
     name: Building USER IMAGE
     needs: changes
-    if: ${{ needs.changes.outputs.user == 'true'}}
+    if: ${{ needs.changes.outputs.user == 'true' }}
     runs-on: ubuntu-latest
 
     steps:
@@ -386,7 +386,7 @@ jobs:
   build-web:
     name: Building WEB IMAGE
     needs: changes
-    if: ${{ needs.changes.outputs.web == 'true'}}
+    if: ${{ needs.changes.outputs.web == 'true' }}
     runs-on: ubuntu-latest
 
     steps:
@@ -420,7 +420,7 @@ jobs:
   build-redis:
     name: Building Redis IMAGE
     needs: changes
-    if: ${{ needs.changes.outputs.redis == 'true'}}
+    if: ${{ needs.changes.outputs.redis == 'true' }}
     runs-on: ubuntu-latest
 
     steps:
@@ -454,7 +454,7 @@ jobs:
   build-rabbitmq:
     name: Building RabbitMQ IMAGE
     needs: changes
-    if: ${{ needs.changes.outputs.rabbitmq == 'true'}}
+    if: ${{ needs.changes.outputs.rabbitmq == 'true' }}
     runs-on: ubuntu-latest
 
     steps:
