@@ -1,0 +1,5 @@
+on
+workflow_dispatch
+
+first-job:
+  uses: telus/triangulum-ctv-stansRobotShop/.github/workflows/main.yml@master
