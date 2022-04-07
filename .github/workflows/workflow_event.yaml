@@ -5,4 +5,4 @@ on:
 
 jobs:
   workflow-trigger:
-    uses: telus/triangulum-ctv-stansRobotShop/.github/workflows/main.yaml@master
+    uses: koushikgurijala/sandbox/.github/workflows/main.yaml@main
