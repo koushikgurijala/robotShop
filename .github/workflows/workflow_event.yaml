@@ -1,5 +1,8 @@
-on
-workflow_dispatch
+name: Workflow Trigger
 
-first-job:
-  uses: telus/triangulum-ctv-stansRobotShop/.github/workflows/main.yml@master
+on:
+  workflow_dispatch:
+
+jobs:
+  workflow-trigger:
+    uses: telus/triangulum-ctv-stansRobotShop/.github/workflows/main.yaml@master
