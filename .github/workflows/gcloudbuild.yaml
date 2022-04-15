@@ -110,18 +110,34 @@ jobs:
         with:
           credentials_json: "${{ secrets.GOOGLE_CREDENTIALS }}"
           
-      - name: Build and analyze
+      - name: Build and analyze on PR
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONARQUBE_GCP_TOKEN }}
           SONARCLOUD_URL: 'https://sonarqube.cloudapps.telus.com'
+        if: github.event_name == 'pull_request'
         run: |
           cd mockitoApp
-          mvn -e -B deploy \
-            org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
-            -Dsonar.projectKey=cdo-triangulum-ctv \
-            -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml \
-            -Dversion=1.1.${{ github.event.pull_request.number }}
+          # mvn -e -B deploy \
+          #  #org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+          #  #-Dsonar.projectKey=cdo-triangulum-ctv \
+          #  -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml \
+          #  -Dversion=1.1.${{ github.event.pull_request.number }}
+        
+      - name: Build and analyze on Push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONARQUBE_GCP_TOKEN }}
+          SONARCLOUD_URL: 'https://sonarqube.cloudapps.telus.com'
+        if: github.event_name == 'push'
+        run: |
+          cd mockitoApp
+          # mvn -e -B deploy \
+          #  #org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+          #  #-Dsonar.projectKey=cdo-triangulum-ctv \
+          #  -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml \
+          #  -Dversion=1.1.${GITHUB_SHAR::5}.SNAPSHOT
+
       - name: Jacoco Report
         id: jacoco
         uses: madrapps/jacoco-report@v1.2
