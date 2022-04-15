@@ -116,6 +116,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONARQUBE_GCP_TOKEN }}
           SONARCLOUD_URL: 'https://sonarqube.cloudapps.telus.com'
         run: |
+          ls -lR
           cd ${{ github.workspace }}/mokcitoApp
           mvn -e -B deploy org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=cdo-triangulum-ctv -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
       - name: Jacoco Report
