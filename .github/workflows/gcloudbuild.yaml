@@ -115,12 +115,13 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONARQUBE_GCP_TOKEN }}
           SONARCLOUD_URL: 'https://sonarqube.cloudapps.telus.com'
         run: |
+          cd ${{ github.workspace }}/mokcitoApp
           mvn -e -B deploy org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=cdo-triangulum-ctv -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
       - name: Jacoco Report
         id: jacoco
         uses: madrapps/jacoco-report@v1.2
         with:
-          paths: ${{ github.workspace }}/target/site/jacoco/jacoco.xml
+          paths: ${{ github.workspace }}/mokcitoApp/target/site/jacoco/jacoco.xml
           token: ${{ secrets.GITHUB_TOKEN }}
           min-coverage-overall: 40
           min-coverage-changed-files: 60
@@ -128,7 +129,7 @@ jobs:
         uses: EnricoMi/publish-unit-test-result-action@v1
         if: always()
         with:
-          files: "target/surefire-reports/*.xml"
+          files: "mockitoApp/target/surefire-reports/*.xml"
 
   build-cart:
     name: Building CART IMAGE
