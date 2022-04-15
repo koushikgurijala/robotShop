@@ -7,11 +7,10 @@ on:
       - '**.md'
       - 'readme/**'
   pull_request:
+    branches: [main]
     paths-ignore:
       - '**.md'
-      - '.github/workflows/*yaml'
-      - 'readme/**'
-      
+           
   workflow_dispatch:
 
 env:
