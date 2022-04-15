@@ -29,5 +29,5 @@ jobs:
         path: shipping
     - name: second-step
       run: |
-        ls -ltr
+        ls -lR
         pwd
