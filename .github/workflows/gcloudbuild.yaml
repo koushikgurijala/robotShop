@@ -48,15 +48,14 @@ jobs:
       rabbitmq: ${{ steps.filter.outputs.rabbitmq }}
         
     steps:
-    - uses: actions/checkout@v3
     - uses: dorny/paths-filter@v2.10.2
       id: filter
       with:
         filters: |
           cart:
-            - added|deleted|modified: 'cart/**'
+            - 'cart/**'
           catalogue:
-            - added|deleted|modified: 'catalogue/**'
+            - 'catalogue/**'
           dispatch: 
             - added|deleted|modified: 'dispatch/**'
           mongo:
@@ -81,7 +80,7 @@ jobs:
   build-cart:
     name: Building CART IMAGE
     needs: changes
-    if: ${{ steps.changes.outputs.cart == 'true' }}
+    if: ${{ needs.changes.outputs.cart == 'true' }}
     runs-on: ubuntu-latest
   
     steps:
