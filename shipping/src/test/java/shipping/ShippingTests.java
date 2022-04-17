@@ -15,12 +15,12 @@ import static io.restassured.RestAssured.given;
 
 public class ShippingTests {
 	
-	@Test
-    public void validateDistance() {
-        Response response =  given().when().get("http://localhost:8080/api/shipping/calc/4374516");
-        String title = response.jsonPath().get("distance");
-        AssertJUnit.assertEquals("9235", title);
-    }
+	// @Test
+    // public void validateDistance() {
+    //     Response response =  given().when().get("http://localhost:8080/api/shipping/calc/4374516");
+    //     String title = response.jsonPath().get("distance");
+    //     AssertJUnit.assertEquals("9235", title);
+    // }
 	
 }
 
