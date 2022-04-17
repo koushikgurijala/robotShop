@@ -21,9 +21,17 @@ public class ShippingTests {
     //     String title = response.jsonPath().get("distance");
     //     AssertJUnit.assertEquals("9235", title);
     // }
+
+    @Test
+    public void validateDistance() {
+        Response response =  given().when().get("https://api.agify.io/?name=meelad");
+        String title = response.jsonPath().get("name");
+        AssertJUnit.assertEquals("meelad", title);
+    }
+    
     @Test
     public void basicPingTest() {
-        given().when().get("http://localhost:8080").then().statusCode(200);
+        given().when().get("http://www.google.com").then().statusCode(200);
     }
 	
 }
