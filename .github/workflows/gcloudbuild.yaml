@@ -430,7 +430,7 @@ jobs:
           echo `docker container port wiremock`
           sleep 20
           cd shipping
-          mvn compile
+          mvn test
     # curl -LIs http://localhost:8080
       - name: Publish Wiremock Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1
