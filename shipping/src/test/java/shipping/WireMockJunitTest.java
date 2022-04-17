@@ -10,7 +10,7 @@ public class WireMockJunitTest {
     public void testStatusCodePositive() {
         given().
                 when().
-                get("http://localhost:9999/api/shipping/calc/4374516").
+                get("http://localhost:8080/api/shipping/calc/4374516").
                 then().
                 assertThat().statusCode(200);
     }
