@@ -426,7 +426,7 @@ jobs:
           docker run -d --rm -p 9999:9999 --name wiremock wiremock/wiremock:2.33.1
           docker container inspect wiremock
           echo `docker container port wiremock`
-          echo `curl -Is http://localhost:9999 | grep HTTP | cut -d ' ' -f2
+          curl -Is http://localhost:9999 | grep HTTP | cut -d ' ' -f2
           cd shipping
           mvn test
 
