@@ -428,6 +428,7 @@ jobs:
           docker run -it -d -p 8080:8080 --name wiremock wiremock/wiremock:2.33.1
           docker container inspect wiremock
           echo `docker container port wiremock`
+          sleep 20
           cd shipping
           mvn compile
     # curl -LIs http://localhost:8080
