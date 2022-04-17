@@ -21,6 +21,10 @@ public class ShippingTests {
     //     String title = response.jsonPath().get("distance");
     //     AssertJUnit.assertEquals("9235", title);
     // }
+    @Test
+    public void basicPingTest() {
+        given().when().get("http://www.google.com").then().statusCode(200);
+    }
 	
 }
 
