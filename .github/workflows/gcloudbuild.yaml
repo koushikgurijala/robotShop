@@ -118,11 +118,11 @@ jobs:
         if: github.event_name == 'pull_request'
         run: |
           cd mockitoApp
-          # mvn -e -B deploy \
-          #  #org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
-          #  #-Dsonar.projectKey=cdo-triangulum-ctv \
-          #  -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml \
-          #  versions:set -DnewVersion=1.0.${{ github.event.pull_request.number }}
+            mvn -e -B deploy \
+            org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+            -Dsonar.projectKey=cdo-triangulum-ctv \
+            -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml \
+            versions:set -DnewVersion=1.0.${{ github.event.pull_request.number }}
         
       - name: Build and analyze on Push
         env:
@@ -132,11 +132,11 @@ jobs:
         if: github.event_name == 'push'
         run: |
           cd mockitoApp
-          # mvn -e -B deploy \
-          #  #org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
-          #  #-Dsonar.projectKey=cdo-triangulum-ctv \
-          #  -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml \
-          #  versions:set -DnewVersion=1.0.${GITHUB_SHAR::5}.SNAPSHOT
+          mvn -e -B deploy \
+          org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+          -Dsonar.projectKey=cdo-triangulum-ctv \
+          -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml \
+          versions:set -DnewVersion=1.0.${GITHUB_SHAR::5}.SNAPSHOT
 
       - name: Jacoco Report
         id: jacoco
@@ -423,7 +423,7 @@ jobs:
         #    --rm
         #    -it
         run: |
-          docker run -it --rm -p 8080:9999 --name wiremock wiremock/wiremock:2.33.1
+          docker run -d --rm -p 8080:9999 --name wiremock wiremock/wiremock:2.33.1
           cd shipping
           mvn test
 
