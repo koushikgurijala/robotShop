@@ -8,6 +8,6 @@
         "headers": {
             "Content-Type": "application/json"
         },
-        "bodyFileName": "../__files/GetShippingCodesRes.json"
+        "bodyFileName": "wiremock-standalone-serverfiles/__files/GetShippingCodesRes.json"
     }
 }
