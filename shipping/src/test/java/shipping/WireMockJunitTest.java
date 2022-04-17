@@ -12,7 +12,7 @@ public class WireMockJunitTest {
                 when().
                 get("http://localhost:8080/api/shipping/calc/4374516").
                 then().
-                assertThat().statusCode(200);
+                assertThat().statusCode(404);
     }
 	
     
