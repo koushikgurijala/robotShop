@@ -427,9 +427,12 @@ jobs:
           docker container inspect wiremock
           echo `docker container port wiremock`
           cd shipping
-          mvn test
-       #curl -Is http://localhost:8080
-       
+          mvn clean test
+      - name: Check Wiremock Server is running
+        run: |
+          echo "curl Output is:"
+          curl -LIs http://localhost:8080
+
       - name: Publish Wiremock Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1
         if: always()
