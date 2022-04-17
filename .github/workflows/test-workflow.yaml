@@ -1,9 +1,7 @@
 name: GCloud Build
 on:
   workflow_dispatch:
-  push:
-    branches: [ dev-branch-v2 ]
-
+  
 env:
   GAR_INFO: us-central1-docker.pkg.dev/triangulum-ctv/stans-robot-shop
   CART_APP_NAME: rs-cart

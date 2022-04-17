@@ -45,12 +45,15 @@ jobs:
       web: ${{ steps.filter.outputs.web }}
       redis: ${{ steps.filter.outputs.redis }}
       rabbitmq: ${{ steps.filter.outputs.rabbitmq }}
+      mockitoapp: ${{ steps.filter.outputs.mockitoapp}}
         
     steps:
     - uses: dorny/paths-filter@v2.10.2
       id: filter
       with:
         filters: |
+          mockitoapp:
+            - 'mockitoApp/**'
           cart:
             - 'cart/**'
           catalogue:
@@ -75,7 +78,80 @@ jobs:
             - added|deleted|modified: 'redis/**'
           rabbitmq:
             - added|deleted|modified: 'rabbitmq/**'    
+  
+  build-mockito-app:
+    name: Building Mockito Demo App
+    needs: changes
+    if: ${{ needs.changes.outputs.mockitoapp == 'true' }}
+    runs-on: ubuntu-latest
+  
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v1
+        with:
+          java-version: 17
+          cache: Maven
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v1
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+      - name: Cache Maven packages
+        uses: actions/cache@v1
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+          
+      - name: Setup GCP Service Account
+        uses: "google-github-actions/auth@v0"
+        with:
+          credentials_json: "${{ secrets.GOOGLE_CREDENTIALS }}"
+          
+      - name: Build and analyze on PR
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONARQUBE_GCP_TOKEN }}
+          SONARCLOUD_URL: 'https://sonarqube.cloudapps.telus.com'
+        if: github.event_name == 'pull_request'
+        run: |
+          cd mockitoApp
+            mvn -e -B deploy \
+            org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+            -Dsonar.projectKey=cdo-triangulum-ctv \
+            -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml \
+            versions:set -DnewVersion=1.0.${{ github.event.pull_request.number }}
         
+      - name: Build and analyze on Push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONARQUBE_GCP_TOKEN }}
+          SONARCLOUD_URL: 'https://sonarqube.cloudapps.telus.com'
+        if: github.event_name == 'push'
+        run: |
+          cd mockitoApp
+          mvn -e -B deploy \
+          org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+          -Dsonar.projectKey=cdo-triangulum-ctv \
+          -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml \
+          versions:set -DnewVersion=1.0.${GITHUB_SHAR::5}.SNAPSHOT
+
+      - name: Jacoco Report
+        id: jacoco
+        uses: madrapps/jacoco-report@v1.2
+        with:
+          paths: mokcitoApp/target/site/jacoco/jacoco.xml
+          token: ${{ secrets.GITHUB_TOKEN }}
+          min-coverage-overall: 40
+          min-coverage-changed-files: 60
+      - name: Publish Unit Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v1
+        if: always()
+        with:
+          files: "mockitoApp/target/surefire-reports/*.xml"
+
   build-cart:
     name: Building CART IMAGE
     needs: changes
@@ -337,7 +413,30 @@ jobs:
         run: |
           gcloud auth configure-docker us-central1-docker.pkg.dev
 
-      # Build the Docker image
+
+      - name: Run Wiremock server
+        #uses: docker://wiremock/wiremock:2.33.1 
+        #with:
+        #  args: >-
+        #    --publish: 9999:8080
+        #    --name: wiremock
+        #    --rm
+        #    -it
+
+       
+        run: |
+          cd shipping
+          docker run -it -d -p 8080:8080 -v wiremock-standalone-server:/home/wiremock --name wiremock wiremock/wiremock:2.33.1
+          docker container inspect wiremock
+          echo `docker container port wiremock`
+          sleep 5
+          mvn test
+    # curl -LIs http://localhost:8080
+      - name: Publish Wiremock Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v1
+        if: always()
+        with:
+          files: "shipping/target/surefire-reports/*.xml"
        
       - name: Build-and-push-to-GAR
         run: |
