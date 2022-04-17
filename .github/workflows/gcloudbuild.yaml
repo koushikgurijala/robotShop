@@ -418,12 +418,12 @@ jobs:
         #uses: docker://wiremock/wiremock:2.33.1 
         #with:
         #  args: >-
-        #    --publish: 8080:9999
+        #    --publish: 9999:8080
         #    --name: wiremock
         #    --rm
         #    -it
         run: |
-          docker run -d --rm -p 8080:9999 --name wiremock wiremock/wiremock:2.33.1
+          docker run -d --rm -p 9999:8080 --name wiremock wiremock/wiremock:2.33.1
           docker container inspect wiremock
           echo `docker container port wiremock`
           cd shipping
