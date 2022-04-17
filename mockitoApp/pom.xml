@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.mockitodemo</groupId>
 	<artifactId>mockito-app</artifactId>
-	<version>${version}</version>
+	<version>1.0.0</version>
 	<name>Mockito Demo App</name>
 	<description>A project for mockito</description>
 

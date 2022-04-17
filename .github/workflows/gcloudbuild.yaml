@@ -122,7 +122,7 @@ jobs:
           #  #org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
           #  #-Dsonar.projectKey=cdo-triangulum-ctv \
           #  -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml \
-          #  -Dversion=1.1.${{ github.event.pull_request.number }}
+          #  versions:set -DnewVersion=1.0.${{ github.event.pull_request.number }}
         
       - name: Build and analyze on Push
         env:
@@ -136,7 +136,7 @@ jobs:
           #  #org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
           #  #-Dsonar.projectKey=cdo-triangulum-ctv \
           #  -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml \
-          #  -Dversion=1.1.${GITHUB_SHAR::5}.SNAPSHOT
+          #  versions:set -DnewVersion=1.0.${GITHUB_SHAR::5}.SNAPSHOT
 
       - name: Jacoco Report
         id: jacoco
@@ -413,7 +413,25 @@ jobs:
         run: |
           gcloud auth configure-docker us-central1-docker.pkg.dev
 
-      # Build the Docker image
+
+      - name: Run Wiremock server
+        #uses: docker://wiremock/wiremock:2.33.1 
+        #with:
+        #  args: >-
+        #    --publish: 8080:9999
+        #    --name: wiremock
+        #    --rm
+        #    -it
+        run: |
+          docker run -it --rm -p 8080:9999 --name wiremock wiremock/wiremock:2.33.1
+          cd shipping
+          mvn test
+
+      - name: Publish Wiremock Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v1
+        if: always()
+        with:
+          files: "shipping/target/surefire-reports/*.xml"
        
       - name: Build-and-push-to-GAR
         run: |
