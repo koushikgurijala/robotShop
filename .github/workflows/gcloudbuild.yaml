@@ -423,9 +423,21 @@ jobs:
         #    --rm
         #    -it
         run: |
-          docker run -d --rm -p 9999:8080 --name wiremock wiremock/wiremock:2.33.1
+          docker run -d --rm -p 9999:9999 --name wiremock wiremock/wiremock:2.33.1
           docker container inspect wiremock
           echo `docker container port wiremock`
+          $url = 'http://localhost:9999';
+          $ch = curl_init($url);
+          curl_setopt($ch, CURLOPT_NOBODY, true);
+          curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+          curl_exec($ch);
+          $retcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+          curl_close($ch);
+          if (200==$retcode) {
+              echo "All's well"
+          } else {
+              echo "NOT running"
+          }
           cd shipping
           mvn test
 
