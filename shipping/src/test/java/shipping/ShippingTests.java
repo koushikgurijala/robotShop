@@ -17,13 +17,13 @@ public class ShippingTests {
 	
 	// @Test
     // public void validateDistance() {
-    //     Response response =  given().when().get("http://localhost:8080/api/shipping/calc/4374516");
+    //     Response response =  given().when().get("http://localhost:8080/api/shipping/calc/4374516/api/shipping/calc/4374516");
     //     String title = response.jsonPath().get("distance");
     //     AssertJUnit.assertEquals("9235", title);
     // }
     @Test
     public void basicPingTest() {
-        given().when().get("http://www.google.com").then().statusCode(200);
+        given().when().get("http://localhost:8080").then().statusCode(200);
     }
 	
 }
