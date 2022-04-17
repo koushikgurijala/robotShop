@@ -423,11 +423,10 @@ jobs:
         #    --rm
         #    -it
         run: |
-          docker run -d --rm -p 8080:8080 --name wiremock wiremock/wiremock:2.33.1
+          docker run -it -d --rm -p 8080:8080 --name wiremock wiremock/wiremock:2.33.1
           docker container inspect wiremock
           echo `docker container port wiremock`
-          export STATUS=`curl -Is http://localhost:8080 | grep HTTP | cut -d ' ' -f2`
-          echo "HTTP Status is $STATUS"
+          curl -Is http://localhost:8080
           cd shipping
           mvn test
 
