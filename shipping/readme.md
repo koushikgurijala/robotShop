@@ -1,7 +1,4 @@
-Adding One more lines 
-Adding an other line
-Adding an ither linesdfdfd
-<br>
+
 <p align="center"> 
 <img src="https://user-images.githubusercontent.com/100637276/163732513-0201b81d-d6d6-4ab9-9cf3-3f6b6c1e2f44.png" alt="TELUS">
 </p>
@@ -17,28 +14,27 @@ Adding an ither linesdfdfd
   <summary>Table of Contents</summary>
   <ol>
     <li><a href="#proposed-wiremock-integration-plan"> ➤ Proposed WireMock Integration Plan</a></li>
-    <li><a href="#overview"> ➤ Overview</a></li>
     <li><a href="#step1"> ➤ Step 1: General Setup Instructions </a></li>
-    <li><a href="#step2"> ➤ Step 2: Maven Setup Instructions for Mockito </a></li>
-    <li><a href="#step3"> ➤ Step 3: GitHub Actions for Mocktio Project </a></li>
+    <li><a href="#step2"> ➤ Step 2: Maven Setup Instructions for Wiremock </a></li>
+    <li><a href="#step3"> ➤ Step 3: GitHub Actions for Wiremock Project </a></li>
     <li><a href="#step4"> ➤ Step 4: Screenshots of the test results </a></li>
-    <li><a href="#references"> ➤ References</a></li>
    </ol>
 </details>
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
 
-## Proposed Mockito Framework Integration Plan
+## Proposed Wiremock Framework Integration Plan
 
-This document details the implementation of Mockito as a Capability
+This document details the implementation of Wiremock as a Capability
 <br>
 <br>
 ![image](https://user-images.githubusercontent.com/100637276/163222841-6ad7a78b-6937-4718-a5ea-f4a661c9cd67.png)
 <br>
 <br>
+
 <!-- STEP1 -->
-<h3 id="step1"> 🔰 STEP1: General Setup Instructions</h3>
+<h3 id="step1"> 🔰 STEP 1: General Setup Instructions</h3>
 
 1. **Generate a GITHUB TOKEN (We need this to get the Pull Request(PR) Information and publish reports back to Github PR)**
  * Go to your GITHUB Account (Not the Repo) 
@@ -75,173 +71,123 @@ This document details the implementation of Mockito as a Capability
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
 <!-- STEP2 -->
-<h3 id="step2"> 🔰 STEP 2: Maven Setup Instructions for Mockito</h3>
+<h3 id="step2"> 🔰 STEP 2: Maven Setup Instructions for Wiremock</h3>
 
 1. **General Info**
 
-Mockito is a framwork for mocking responses to API calls. Mockito responds to a request using JSON key value pairs. For testing an application, we need JUnit or any other similar testing framwork and mockito framework.
+WireMock is a library for stubbing and mocking web services. It constructs a HTTP server that we could connect to as we would to an actual web service. When a WireMock server is in action, we can set up expectations, call the service, and then verify its behaviors.
 <p>Under Dependencies section in POM.XML, Add the below</p>
 
 ```XML
 <dependencies>
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			 <artifactId>junit-jupiter-engine</artifactId>
-			  <version>5.8.1</version>
-			   <scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.mockito</groupId>
-			 <artifactId>mockito-inline</artifactId>
-			  <version>4.2.0</version>
-			   <scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.mockito</groupId>
-			 <artifactId>mockito-junit-jupiter</artifactId>
-			  <version>4.2.0</version>
-			   <scope>test</scope>
-		</dependency>
+	<dependency>
+	    <groupId>io.rest-assured</groupId>
+	    <artifactId>rest-assured</artifactId>
+	    <version>3.3.0</version><!--$NO-MVN-MAN-VER$-->
+	    <scope>test</scope>
+	</dependency>
+	<dependency>
+	    <groupId>junit</groupId>
+	    <artifactId>junit</artifactId>
+	    <version>4.4</version><!--$NO-MVN-MAN-VER$-->
+	    <scope>test</scope>
+	</dependency>
+	<dependency>
+	    <groupId>com.github.tomakehurst</groupId>
+	    <artifacId>wiremock-jre8</artifactId>
+	    <version>2.33.1</version>
+	    <scope>test</scope>
+	</dependency>
 </dependencies>
 ```
-2. **JUnit, Surefire Reports and Jacoco are also used along side Mockito. Ensure the necessary dependencies and plugins are configured**
-
+2. **RestAssued, Junit and Surefire Reports are used along side Wiremock. Ensure the necessary dependencies and plugins are configured**
+ 
 - [x] JUnit is used for Test Coverange
+- [x] REST Assured is a powerful API testing library which makes the tests human readable and makes CI/CD setup a breeze
 - [x] SureFire Reports are XMLs of the results of JUnit which can be pulished
-- [x] JaCoCo is used for Code Coverage
 
 3. **Post build, the artifacts has to be pushed to Google Artifact Repository(GAR)**
- 
-Extensions should be setup in POM.XML so Maven will pull out respective Jars for establishing connection to GAR
 
-```XML
-<build>
- ................
- ................
- <extensions>
-  <extension>
-   <groupId>com.google.cloud.artifactregistry</groupId>
-    <artifactId>artifactregistry-maven-wagon</artifactId>
-     <version>2.1.0</version>
-  </extension>
- </extensions>
-</build>
-```
-Repositories should be setup in POM.XML under Distribution Management which will tell maven which repo to push the artifacts to
+ * Developers commit and push changes to GitHub
+ * The Workflow Engine is triggered when a pull request (PR) to develop a branch is made OR code is pushed to a develop branch PR
+ * The Workflow Engine contains all the GitHub Actions automations which are handled via workflows
+ * The gcloudbuild.yaml file contains the steps required for the workflow
+ * The GitHub Actionsworkflow engine would build and spin up the docker containers
+ * The Automated testing will be conducted by running through the test cases that were created
+ * Once the workflow is completed, a comprehensive report is generated indicating the status of the build.
 
-```XML
-<distributionManagement>
-    	 <snapshotRepository>
-      		<id>artifact-registry</id>
-      			<url>artifactregistry://us-central1-maven.pkg.dev/triangulum-ctv/mockitodemoapp</url>
-    	 </snapshotRepository>
-    	<repository>
-      		<id>artifact-registry</id>
-      		<url>artifactregistry://us-central1-maven.pkg.dev/triangulum-ctv/mockitodemoapp</url>
-    	</repository>
-</distributionManagement>
-```
 <!-- STEP3 -->
-<h3 id="step3"> 🔰 STEP 3: GitHub Actions for Mockito Project</h3>
+<h3 id="step3"> 🔰 STEP 3: GitHub Actions for Wiremock Project</h3>
 
-**Below GitHub Actions will build and push the artifacts to GAR and publish the results to SonarQube and Pull Request(PR) Comments**
+**Below GitHub Actions will build and push the artifacts to GAR and publish the results and Pull Request(PR) Comments**
 
 ```YAML
-name: Build Test and Publish
-on:
-  workflow_dispatch:
-  push:
-   branches:
-     - main
-  pull_request:
-   branches:
-    - main
-    types: [opened, synchronize, reopened]
 
-jobs:
-  build:
-    name: Build Test and Publish
+build-shipping:
+    name: Building SHIPPING IMAGE
+    needs: changes
+    if: ${{ needs.changes.outputs.shipping == 'true' }}
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-   
-   # Setup Java and Maven
-      - name: Set up JDK 17
-        uses: actions/setup-java@v1
-        with:
-          java-version: 17
-          cache: Maven
-   
-   # Setup Cache (Optional, This will not help much as the runners are ephimeral)
-      - name: Cache SonarCloud packages
-        uses: actions/cache@v1
-        with:
-          path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
-      - name: Cache Maven packages
-        uses: actions/cache@v1
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
-   
-   # Setup Authorization to GCP Account for pushing artifacts to GAR
+      - name: Checkout
+        uses: actions/checkout@v3
+                       
       - name: Setup GCP Service Account
         uses: "google-github-actions/auth@v0"
         with:
           credentials_json: "${{ secrets.GOOGLE_CREDENTIALS }}"
-    
-    # Perform the Build 
-      - name: Build and analyze
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONARQUBE_GCP_TOKEN }}
-          SONARCLOUD_URL: 'https://sonarqube.cloudapps.telus.com'
+      
+      - name: Set up Cloud SDK
+        uses: 'google-github-actions/setup-gcloud@v0'
+      
+      # Configure docker to use the gcloud command-line tool as a credential helper
+      - name: Setup Docker
         run: |
-          mvn -e -B deploy \
-           org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
-           -Dsonar.projectKey=cdo-triangulum-ctv \
-           -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
-    
-    # This Step publishes JaCoCo report in PR
-      - name: Jacoco Report
-        id: jacoco
-        uses: madrapps/jacoco-report@v1.2
-        with:
-          paths: ${{ github.workspace }}/target/site/jacoco/jacoco.xml
-          token: ${{ secrets.GITHUB_TOKEN }}
-          min-coverage-overall: 40
-          min-coverage-changed-files: 60
-     
-     # This Step publishes JUnit report in PR
-      - name: Publish Unit Test Results
+          gcloud auth configure-docker us-central1-docker.pkg.dev
+
+
+      - name: Run Wiremock server
+        #uses: docker://wiremock/wiremock:2.33.1 
+        #with:
+        #  args: >-
+        #    --publish: 9999:8080
+        #    --name: wiremock
+        #    --rm
+        #    -it
+
+       
+        run: |
+          cd shipping
+          docker run -d -p 8080:8080 -v $PWD/src/test/resources:/home/wiremock --name wiremock wiremock/wiremock:2.33.1
+          docker container inspect wiremock
+          echo `docker container port wiremock`
+          mvn test
+    # curl -LIs http://localhost:8080
+      - name: Publish Wiremock Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1
         if: always()
         with:
-          files: "target/surefire-reports/*.xml"
+          files: "shipping/target/surefire-reports/*.xml"
+       
+      - name: Build-and-push-to-GAR
+        run: |
+          echo `pwd`
+          export TAG=`cat shipping/VERSION.txt`
+          echo $TAG
+          echo "$GAR_INFO"/"$SHIPPING_APP_NAME":"$TAG"
+          docker build -t "$GAR_INFO"/"$SHIPPING_APP_NAME":"$TAG" shipping/
+          gcloud info
+          docker push "$GAR_INFO"/"$SHIPPING_APP_NAME":"$TAG"  
  ```
+ 
 <!-- STEP4 -->
 <h3 id="step4"> 🔰 STEP 4: Screenshots of the test results</h3>
 
 📊 Results of JUnit Tests - Test Coverage
 
-![image](https://user-images.githubusercontent.com/100637276/163735219-d7f98e0b-58be-42bc-8b9c-4eb73b972ab5.png)
+![image](https://raw.githubusercontent.com/koushikgurijala/robotShop/main/wiremock-test-result.png)
 
 <br>
 
-📊 Results of JaCoCo - Code Coverage
-
-![image](https://user-images.githubusercontent.com/100637276/163735228-964981f1-3d79-4ed2-ba03-43af3972c80e.png)
-
-<br>
-
-📊 Results from SonarQube - Overall Code Quality Analysis
-![image](https://user-images.githubusercontent.com/100637276/163735245-71bdde0e-80c4-40c3-b8ae-10a74c68676a.png)
-
-<br>
-
-These reports in the PR comments helps teams to take informed decisions on the code and increases overall engineering productivity
-
+The Wiremock report helps teams in Fast Development and Delivery, Increased Productivity and High App Quality and Performance
