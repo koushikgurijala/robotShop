@@ -1,5 +1,4 @@
-Adding One more lines 
-Adding an other line
+
 <p align="center"> 
 <img src="https://user-images.githubusercontent.com/100637276/163732513-0201b81d-d6d6-4ab9-9cf3-3f6b6c1e2f44.png" alt="TELUS">
 </p>
@@ -109,11 +108,9 @@ WireMock is a library for stubbing and mocking web services. It constructs a HTT
 
 3. **Post build, the artifacts has to be pushed to Google Artifact Repository(GAR)**
 
-The Microservices are containerized using Docker so the CI-docker workflow helps us building and conducting automated testing
-
  * Developers commit and push changes to GitHub
- * The workflow engine is triggered when a pull request (PR) to develop a branch is made OR code is pushed to a develop branch PR
- * The workflow engine contains all the GitHub Actions automations which are handled via workflows
+ * The Workflow Engine is triggered when a pull request (PR) to develop a branch is made OR code is pushed to a develop branch PR
+ * The Workflow Engine contains all the GitHub Actions automations which are handled via workflows
  * The gcloudbuild.yaml file contains the steps required for the workflow
  * The GitHub Actionsworkflow engine would build and spin up the docker containers
  * The Automated testing will be conducted by running through the test cases that were created
