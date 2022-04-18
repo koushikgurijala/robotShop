@@ -110,7 +110,6 @@ Mockito is a framwork for mocking responses to API calls. Mockito responds to a 
 3. **Post build, the artifacts has to be pushed to Google Artifact Repository(GAR)**
  
 Extensions should be setup in POM.XML so Maven will pull out respective Jars for establishing connection to GAR
-Adding a test line
 
 ```XML
 <build>
