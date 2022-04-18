@@ -15,28 +15,27 @@ Adding an other line
   <summary>Table of Contents</summary>
   <ol>
     <li><a href="#proposed-wiremock-integration-plan"> ➤ Proposed WireMock Integration Plan</a></li>
-    <li><a href="#overview"> ➤ Overview</a></li>
     <li><a href="#step1"> ➤ Step 1: General Setup Instructions </a></li>
-    <li><a href="#step2"> ➤ Step 2: Maven Setup Instructions for Mockito </a></li>
-    <li><a href="#step3"> ➤ Step 3: GitHub Actions for Mocktio Project </a></li>
+    <li><a href="#step2"> ➤ Step 2: Maven Setup Instructions for Wiremock </a></li>
+    <li><a href="#step3"> ➤ Step 3: GitHub Actions for Wiremock Project </a></li>
     <li><a href="#step4"> ➤ Step 4: Screenshots of the test results </a></li>
-    <li><a href="#references"> ➤ References</a></li>
    </ol>
 </details>
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
 
-## Proposed Mockito Framework Integration Plan
+## Proposed Wiremock Framework Integration Plan
 
-This document details the implementation of Mockito as a Capability
+This document details the implementation of Wiremock as a Capability
 <br>
 <br>
 ![image](https://user-images.githubusercontent.com/100637276/163222841-6ad7a78b-6937-4718-a5ea-f4a661c9cd67.png)
 <br>
 <br>
+
 <!-- STEP1 -->
-<h3 id="step1"> 🔰 STEP1: General Setup Instructions</h3>
+<h3 id="step1"> 🔰 STEP 1: General Setup Instructions</h3>
 
 1. **Generate a GITHUB TOKEN (We need this to get the Pull Request(PR) Information and publish reports back to Github PR)**
  * Go to your GITHUB Account (Not the Repo) 
@@ -47,6 +46,28 @@ This document details the implementation of Mockito as a Capability
  * ➡️ After you obtain GitHub Personal Access Token, Come to your **GitHub Repo**, 
  * ➡️ Click on Settings Tab ➡️ visit Security ➡️ Secrets ➡️ Actions, then 
  * ➡️ Add a secret and name it **GITHUB_TOKEN**  and in the value field paste the **token** you obtained from the above(1st) step
+
+2. **Request SonarQube Team for access to a new project**
+ * Access Request Instructions:
+ * Identify a unique name of the project to be created in SonarQube [https://sonarqube.cloudapps.telus.com/] ex: cdo-triangulum-ctv for this app
+ * This is where all your reports will be published
+ * Also request for mapping your GitHub project in SonarQube [You should give the GitHub Repo Name to SonarQube Admins for mapping Repo with SonarQube Project]
+ 
+3. **Once access is obtained to SonarQube ➡️ Go to Your name displayed on the left side Top corner**
+ * ➡️ Then Click on My Account
+ * ➡️ then go to Security
+ * ➡️ Enter a meaningful name for the token ➡️ Click on Generate
+ * ➡️ Copy/preserve the token [This is the token that enables authentication of your Github Workflow execution to publish results in SonarQube]
+
+4. **After you obtain SonarQube Token...** 
+* ➡️ Come to your GitHub Repo, Click on Settings Tab, visit Security
+* ➡️ Secrets ➡️ Actions, then 
+* ➡️ Add a secret and name it **SONAR_TOKEN** and in the value field paste the **token** obtained from the above(2nd) step
+
+5. **Request Google Cloud COE Team for creation of Google Artifact Registry (This is needed for storing your Build artifacts)**
+* ➡️ Identify a project name, Ex: trianngulum-ctv for this app
+* ➡️ Identiy a location or obtain the location from the Google Cloud COE ex: us-central1 (if its across multi region, then you dont need this)
+* ➡️ Identify a name for the repository and type (maven, gradle, docker etc). It is maven for this project and name is mockitodemoapp
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
@@ -87,36 +108,17 @@ WireMock is a library for stubbing and mocking web services. It constructs a HTT
 - [x] SureFire Reports are XMLs of the results of JUnit which can be pulished
 
 3. **Post build, the artifacts has to be pushed to Google Artifact Repository(GAR)**
- 
-Extensions should be setup in POM.XML so Maven will pull out respective Jars for establishing connection to GAR
 
-```XML
-<build>
- ................
- ................
- <extensions>
-  <extension>
-   <groupId>com.google.cloud.artifactregistry</groupId>
-    <artifactId>artifactregistry-maven-wagon</artifactId>
-     <version>2.1.0</version>
-  </extension>
- </extensions>
-</build>
-```
-Repositories should be setup in POM.XML under Distribution Management which will tell maven which repo to push the artifacts to
+The Microservices are containerized using Docker so the CI-docker workflow helps us building and conducting automated testing
 
-```XML
-<distributionManagement>
-    	 <snapshotRepository>
-      		<id>artifact-registry</id>
-      			<url>artifactregistry://us-central1-maven.pkg.dev/triangulum-ctv/mockitodemoapp</url>
-    	 </snapshotRepository>
-    	<repository>
-      		<id>artifact-registry</id>
-      		<url>artifactregistry://us-central1-maven.pkg.dev/triangulum-ctv/mockitodemoapp</url>
-    	</repository>
-</distributionManagement>
-```
+ * Developers commit and push changes to GitHub
+ * The workflow engine is triggered when a pull request (PR) to develop a branch is made OR code is pushed to a develop branch PR
+ * The workflow engine contains all the GitHub Actions automations which are handled via workflows
+ * The gcloudbuild.yaml file contains the steps required for the workflow
+ * The GitHub Actionsworkflow engine would build and spin up the docker containers
+ * The Automated testing will be conducted by running through the test cases that were created
+ * Once the workflow is completed, a comprehensive report is generated indicating the status of the build.
+
 <!-- STEP3 -->
 <h3 id="step3"> 🔰 STEP 3: GitHub Actions for Wiremock Project</h3>
 
@@ -179,16 +181,15 @@ build-shipping:
           echo "$GAR_INFO"/"$SHIPPING_APP_NAME":"$TAG"
           docker build -t "$GAR_INFO"/"$SHIPPING_APP_NAME":"$TAG" shipping/
           gcloud info
-          docker push "$GAR_INFO"/"$SHIPPING_APP_NAME":"$TAG"
-	  
+          docker push "$GAR_INFO"/"$SHIPPING_APP_NAME":"$TAG"  
  ```
+ 
 <!-- STEP4 -->
 <h3 id="step4"> 🔰 STEP 4: Screenshots of the test results</h3>
 
 📊 Results of JUnit Tests - Test Coverage
 
 ![image](https://raw.githubusercontent.com/koushikgurijala/robotShop/main/wiremock-test-result.png)
-
 
 <br>
 
