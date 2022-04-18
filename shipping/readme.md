@@ -1,9 +1,8 @@
-
 <p align="center"> 
 <img src="https://user-images.githubusercontent.com/100637276/163732513-0201b81d-d6d6-4ab9-9cf3-3f6b6c1e2f44.png" alt="TELUS">
 </p>
  
-<h1 id="heading" align="center"> Mockito Framework Integration with GitHub ACtions </h1>
+<h1 id="heading" align="center">WireMock Integration with GitHub Actions for Mocking MicroServices</h1>
 
 
 <br>
@@ -13,7 +12,7 @@
 <details open="open">
   <summary>Table of Contents</summary>
   <ol>
-    <li><a href="#proposed-mockito-framework-integration-plan"> ➤ Proposed Mockito Framework Integration Plan</a></li>
+    <li><a href="#proposed-wiremock-integration-plan"> ➤ Proposed WireMock Integration Plan</a></li>
     <li><a href="#overview"> ➤ Overview</a></li>
     <li><a href="#step1"> ➤ Step 1: General Setup Instructions </a></li>
     <li><a href="#step2"> ➤ Step 2: Maven Setup Instructions for Mockito </a></li>
@@ -241,6 +240,4 @@ jobs:
 <br>
 
 These reports in the PR comments helps teams to take informed decisions on the code and increases overall engineering productivity
-
-
 
