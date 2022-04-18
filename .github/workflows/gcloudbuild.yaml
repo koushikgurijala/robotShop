@@ -426,10 +426,9 @@ jobs:
        
         run: |
           cd shipping
-          docker run -it -d -p 8080:8080 -v wiremock-standalone-server:/home/wiremock --name wiremock wiremock/wiremock:2.33.1
+          docker run -d -p 8080:8080 -v $PWD/src/test/resources:/home/wiremock --name wiremock wiremock/wiremock:2.33.1
           docker container inspect wiremock
           echo `docker container port wiremock`
-          sleep 5
           mvn test
     # curl -LIs http://localhost:8080
       - name: Publish Wiremock Test Results
