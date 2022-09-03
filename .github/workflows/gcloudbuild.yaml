@@ -14,7 +14,7 @@ on:
   workflow_dispatch:
 
 env:
-  GAR_INFO: us-central1-docker.pkg.dev/triangulum-ctv/stans-robot-shop
+  GAR_INFO: northamerica-northeast2-docker.pkg.dev/thedevproj/tdpartifs
   CART_APP_NAME: rs-cart
   SHIPPING_APP_NAME: rs-shipping
   CATALOGUE_APP_NAME: rs-catalogue
