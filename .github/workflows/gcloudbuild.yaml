@@ -28,57 +28,7 @@ env:
   REDIS_APP_NAME: redis
   RABBITMQ_APP_NAME: rabbitmq
 
-jobs:
-  changes:
-    name: Track Changes in Services
-    runs-on: ubuntu-latest
-    outputs:
-      cart: ${{ steps.filter.outputs.cart }}
-      catalogue: ${{ steps.filter.outputs.catalogue }}
-      dispatch: ${{ steps.filter.outputs.dispatch }}
-      mongo: ${{ steps.filter.outputs.mongo }}
-      mysql: ${{ steps.filter.outputs.mysql }}
-      payment: ${{ steps.filter.outputs.payment }}
-      ratings: ${{ steps.filter.outputs.ratings }}
-      shipping: ${{ steps.filter.outputs.shipping }}
-      user: ${{ steps.filter.outputs.user }}
-      web: ${{ steps.filter.outputs.web }}
-      redis: ${{ steps.filter.outputs.redis }}
-      rabbitmq: ${{ steps.filter.outputs.rabbitmq }}
-      mockitoapp: ${{ steps.filter.outputs.mockitoapp}}
-        
-    steps:
-    - uses: dorny/paths-filter@v2.10.2
-      id: filter
-      with:
-        filters: |
-          mockitoapp:
-            - 'mockitoApp/**'
-          cart:
-            - 'cart/**'
-          catalogue:
-            - 'catalogue/**'
-          dispatch: 
-            - added|deleted|modified: 'dispatch/**'
-          mongo:
-            - added|deleted|modified: 'mongo/**'
-          mysql:
-            - added|deleted|modified: 'mysql/**'
-          payment:
-            - added|deleted|modified: 'payment/**'
-          ratings:
-            - added|deleted|modified: 'ratings/**'
-          shipping:
-            - added|deleted|modified: 'shipping/**'
-          user:
-            - added|deleted|modified: 'user/**'
-          web:
-            - added|deleted|modified: 'web/**'
-          redis:
-            - added|deleted|modified: 'redis/**'
-          rabbitmq:
-            - added|deleted|modified: 'rabbitmq/**'    
-  
+jobs: 
   build-mockito-app:
     name: Building Mockito Demo App
     needs: changes
