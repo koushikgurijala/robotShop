@@ -23,9 +23,30 @@ env:
   RABBITMQ_APP_NAME: rabbitmq
   
 jobs:
-  build:
-    name: Build
+  changes:
+    name: Track Changes in Services
     runs-on: ubuntu-latest
+    outputs:
+      cart: ${{ steps.filter.outputs.cart }}
+      catalogue: ${{ steps.filter.outputs.catalogue }}
+      dispatch: ${{ steps.filter.outputs.dispatch }}
+      mongo: ${{ steps.filter.outputs.mongo }}
+      mysql: ${{ steps.filter.outputs.mysql }}
+      payment: ${{ steps.filter.outputs.payment }}
+      ratings: ${{ steps.filter.outputs.ratings }}
+      shipping: ${{ steps.filter.outputs.shipping }}
+      user: ${{ steps.filter.outputs.user }}
+      web: ${{ steps.filter.outputs.web }}
+      redis: ${{ steps.filter.outputs.redis }}
+      rabbitmq: ${{ steps.filter.outputs.rabbitmq }}
+      mockitoapp: ${{ steps.filter.outputs.mockitoapp}}  
+  
+  build-mockito-app:
+    name: Building Mockito Demo App
+    needs: changes
+    if: ${{ needs.changes.outputs.mockitoapp == 'false' }}
+    runs-on: ubuntu-latest
+    
     steps:
       - uses: actions/checkout@v2
         with:
@@ -48,7 +69,7 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
       - name: Build and analyze
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          GITHUB_TOKEN: ${{ secrets.GIT_HUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_GCP }}
           SONAR_HOST_URL: ${{ 'http://34.70.184.108:9000' }}
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=TheDevProj  
