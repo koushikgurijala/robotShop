@@ -1,10 +1,7 @@
-name: GCloud Build
+name: GCloud Build New
 on:
   push:
-    branches: [ dev-branch-1 ]
-    # - '.github/workflows/new.yaml'
-    paths-ignore:
-      - 'readme/**'
+    branches: [ dev-branch-1, main ]
   pull_request:
     branches: [main]
   
